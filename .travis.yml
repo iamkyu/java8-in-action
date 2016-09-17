@@ -1,0 +1,8 @@
+language: java
+jdk:
+  - oraclejdk8
+script: "mvn cobertura:cobertura coveralls:report"
+after_success:
+  - mvn clean cobertura:cobertura coveralls:report
+notifications:
+  slack: iamkyu:eKP3MxMhMH8Txf81ghH6NMZX
