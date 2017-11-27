@@ -36,6 +36,18 @@ public class BetterBehaviorParamTest {
         }
     }
 
+    @Test @DisplayName("요구사항1.초록사과를 필터링한다. 타입을 명시하지 않는다.")
+    void filterGreenApplesTestWithDeduction() {
+        //given when
+        List<Apple> apples = BehaviorParam.filterApples(
+                inventory, a -> "green".equals(a.getColor()));
+
+        //then
+        for (Apple apple : apples) {
+            Assertions.assertEquals(apple.getColor(), "green");
+        }
+    }
+
     @Test @DisplayName("요구사항2.무게별로 사과를 정렬한다")
     void sortByWeight() {
         // 자바 8이전의 리스트 정렬
