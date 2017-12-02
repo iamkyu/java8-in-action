@@ -10,6 +10,8 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
+import static java.util.Comparator.comparing;
+
 public class BetterBehaviorParamTest {
 
     private List<Apple> inventory;
@@ -24,7 +26,8 @@ public class BetterBehaviorParamTest {
         );
     }
 
-    @Test @DisplayName("요구사항1.초록사과를 필터링한다")
+    @Test
+    @DisplayName("요구사항1.초록사과를 필터링한다")
     void filterGreenApplesTest() {
         //given when
         List<Apple> apples = BehaviorParam.filterApples(inventory,
@@ -36,7 +39,8 @@ public class BetterBehaviorParamTest {
         }
     }
 
-    @Test @DisplayName("요구사항1.초록사과를 필터링한다. 타입을 명시하지 않는다.")
+    @Test
+    @DisplayName("요구사항1.초록사과를 필터링한다. 타입을 명시하지 않는다.")
     void filterGreenApplesTestWithDeduction() {
         //given when
         List<Apple> apples = BehaviorParam.filterApples(
@@ -48,7 +52,8 @@ public class BetterBehaviorParamTest {
         }
     }
 
-    @Test @DisplayName("요구사항2.무게별로 사과를 정렬한다")
+    @Test
+    @DisplayName("요구사항2.무게별로 사과를 정렬한다")
     void sortByWeight() {
         // 자바 8이전의 리스트 정렬
         inventory.sort(new Comparator<Apple>() {
@@ -57,14 +62,18 @@ public class BetterBehaviorParamTest {
                 return a1.getWeight().compareTo(a2.getWeight());
             }
         });
-
-        for (int i = 0; i < inventory.size() - 1; i++) {
-            Assertions.assertTrue(inventory.get(i).getWeight() <= inventory.get(i + 1).getWeight());
-        }
+        compareInventory(inventory);
 
         // 람다를 통한 리스트 정렬
         inventory.sort((a1, a2) -> a1.getWeight().compareTo(a2.getWeight()));
+        compareInventory(inventory);
 
+        // 메서드  레퍼런스를 통한  정렬
+        inventory.sort(comparing(Apple::getWeight));
+        compareInventory(inventory);
+    }
+
+    private void compareInventory(List<Apple> inventory) {
         for (int i = 0; i < inventory.size() - 1; i++) {
             Assertions.assertTrue(inventory.get(i).getWeight() <= inventory.get(i + 1).getWeight());
         }
